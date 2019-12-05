@@ -2,6 +2,13 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+const entryPoint = document.querySelector('.cards');
+axios.get('https://api.github.com/users/jlong5795')
+  .then(response => {
+    const newGitCard = GitHubCard(response);
+    console.log(response.data.bio);
+    entryPoint.appendChild(newGitCard);
+  })
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -13,6 +20,9 @@
 /* Step 4: Pass the data received from Github into your function, 
            create a new component and add it to the DOM as a child of .cards
 */
+
+
+
 
 /* Step 5: Now that you have your own card getting added to the DOM, either 
           follow this link in your browser https://api.github.com/users/<Your github name>/followers 
@@ -45,6 +55,44 @@ const followersArray = [];
 </div>
 
 */
+
+function GitHubCard(singleObject) {
+  const 
+    newCard = document.createElement('div'),
+    newImage = document.createElement('img'),
+    newCardInfo = document.createElement('div'),
+    newName = document.createElement('h3'),
+    newUserName = document.createElement('p'),
+    newLocation = document.createElement('p'),
+    newProfile = document.createElement('p'),
+    newUrl = document.createElement('a'),
+    newFollowers = document.createElement('p'),
+    newFollowing = document.createElement('p'),
+    newBio = document.createElement('p');
+
+    newCard.classList.add('card');
+    newCardInfo.classList.add('card-info');
+    newName.classList.add('name');
+    newUserName.classList.add('username');
+
+    newImage.src = singleObject.data.avatar_url;
+    newName.textContent = `${singleObject.data.name}`;
+    newUserName.textContent = `${singleObject.data.login}`;
+    newLocation.textContent = `Location: ${singleObject.data.location}`;
+    newUrl.textContent = singleObject.data.html_url;
+    newUrl.href = singleObject.data.html_url;
+    newProfile.textContent = `Profile: `;
+    newFollowers.textContent = `Followers: ${singleObject.data.followers}`;
+    newFollowing.textContent = `Following: ${singleObject.data.following}`;
+    newBio.textContent = `Bio: ${singleObject.data.bio}`;
+
+    newCard.append(newImage, newCardInfo);
+    newCardInfo.append(newName, newUserName, newLocation, newProfile, newFollowers, newFollowing, newBio);
+    newProfile.appendChild(newUrl);
+
+    return newCard;
+}
+
 
 /* List of LS Instructors Github username's: 
   tetondan

@@ -9,6 +9,21 @@ axios.get('https://api.github.com/users/jlong5795')
     entryPoint.appendChild(newGitCard);
   })
 
+  axios.get('https://api.github.com/users/jlong5795/followers')
+    .then(resp => {
+      resp.data.forEach(item => {
+        axios.get(`https://api.github.com/users/${item.login}`)
+          .then(thisResponse => {
+            const newFollowerCard = GitHubCard(thisResponse);
+            entryPoint.appendChild(newFollowerCard);
+          })
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -34,18 +49,18 @@ axios.get('https://api.github.com/users/jlong5795')
 */
 
 const followersArray = [
-  'https://api.github.com/users/aalvinlin',
-  'https://api.github.com/users/maggieprice',
-  'https://api.github.com/users/anamonteiro430',
-  'https://api.github.com/users/nicbongo',
-  'https://api.github.com/users/PHONGdotTech',
-  'https://api.github.com/users/ashraf-heleka',
-  'https://api.github.com/users/alexandercsierra',
-  'https://api.github.com/users/Judson00'
+  'aalvinlin',
+  'maggieprice',
+  'anamonteiro430',
+  'nicbongo',
+  'PHONGdotTech',
+  'ashraf-heleka',
+  'alexandercsierra',
+  'Judson00'
 ];
 
 followersArray.forEach(currentValue => {
-  axios.get(currentValue)
+  axios.get(`https://api.github.com/users/${currentValue}`)
   .then(response => {
     const newGitCard = GitHubCard(response);
     entryPoint.appendChild(newGitCard);

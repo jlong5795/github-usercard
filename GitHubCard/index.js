@@ -14,6 +14,7 @@ axios.get('https://api.github.com/users/jlong5795')
       resp.data.forEach(item => {
         axios.get(`https://api.github.com/users/${item.login}`)
           .then(thisResponse => {
+            console.log(resp);
             const newFollowerCard = GitHubCard(thisResponse);
             entryPoint.appendChild(newFollowerCard);
           })
